@@ -1,3 +1,30 @@
+
+const SUPABASE_URL = "https://hbqmezfzryticbtswlhy.supabase.co/rest/v1/";
+const SUPABASE_PUBLIC_KEY = "sb_publishable_7eRKA0H1fqsgZgsdvWsR1Q_sTpKJWH0";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLIC_KEY
+);
+
+// Test the connection by loading active trips.
+async function testTripsConnection() {
+  const { data, error } = await supabaseClient
+    .from("trips")
+    .select("id, title, travel_date, return_date, price_ksh, capacity")
+    .eq("is_active", true)
+    .order("travel_date", { ascending: true });
+
+  if (error) {
+    console.error("Punisher Adventures database error:", error.message);
+    return;
+  }
+
+  console.log("Supabase connected! Active trips:", data);
+}
+
+testTripsConnection();
+
 document.addEventListener("DOMContentLoaded", () => {
   // Loading screen
   const loader = document.getElementById("loader");

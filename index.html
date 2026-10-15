@@ -1,1 +1,421 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <meta name="description" content="Punisher Adventures — Explore wild destinations, discover breathtaking places, and create unforgettable memories.">
+
+  <title>Punisher Adventures | Explore Beyond</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div class="loader" id="loader">
+    <div class="loader-logo">P<span>A</span></div>
+    <p>PUNISHER ADVENTURES</p>
+    <div class="loader-line"></div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="header" id="header">
+    <nav class="navbar container">
+
+      <a href="#home" class="brand">
+        <span class="brand-mark">P<span>A</span></span>
+        <span class="brand-text">
+          <strong>PUNISHER</strong>
+          <small>ADVENTURES</small>
+        </span>
+      </a>
+
+      <button class="menu-toggle"
+        id="menuToggle"
+        aria-label="Toggle navigation"
+        aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About Us</a>
+        <a href="#destinations" class="nav-link">Destinations</a>
+        <a href="#experiences" class="nav-link">Experiences</a>
+        <a href="#contact" class="nav-link nav-cta">Let's Explore ↗</a>
+      </div>
+
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+
+      <div class="hero-background"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content container">
+
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span>YOUR NEXT GREAT ESCAPE STARTS HERE</span>
+        </div>
+
+        <h1>
+          THE WORLD<br>
+          IS YOURS TO<br>
+          <span class="outline-text">CONQUER.</span>
+        </h1>
+
+        <p class="hero-description">
+          Beyond the ordinary. Into the extraordinary.
+          Discover breathtaking destinations, unforgettable
+          adventures, and experiences that stay with you forever.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#destinations" class="btn btn-primary">
+            EXPLORE DESTINATIONS <span>↗</span>
+          </a>
+
+          <a href="#about" class="btn btn-outline">
+            DISCOVER OUR STORY
+          </a>
+        </div>
+
+        <div class="hero-bottom">
+
+          <div class="hero-location">
+            <span class="location-icon">◎</span>
+            <div>
+              <small>BASED IN</small>
+              <strong>KENYA · OPEN TO THE WORLD</strong>
+            </div>
+          </div>
+
+          <div class="hero-scroll">
+            <span>SCROLL TO EXPLORE</span>
+            <span class="scroll-line"></span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="hero-index">
+        <span>01</span>
+        <span class="index-divider"></span>
+        <span>ADVENTURE AWAITS</span>
+      </div>
+
+    </section>
+
+    <!-- QUICK INTRO STRIP -->
+    <section class="intro-strip">
+      <div class="container intro-strip-inner">
+        <span>WILD DESTINATIONS</span>
+        <span class="strip-star">✳</span>
+        <span>UNFORGETTABLE EXPERIENCES</span>
+        <span class="strip-star">✳</span>
+        <span>MEMORIES THAT LAST</span>
+        <span class="strip-star">✳</span>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="section about-section" id="about">
+
+      <div class="container about-grid">
+
+        <div class="section-label">
+          <span>01 / WHO WE ARE</span>
+          <span class="label-line"></span>
+        </div>
+
+        <div class="about-main">
+          <p class="section-kicker">NOT JUST A TRIP. A STORY.</p>
+
+          <h2>
+            MADE FOR THE<br>
+            <span class="orange-text">WILD AT HEART.</span>
+          </h2>
+
+          <p class="section-description">
+            At Punisher Adventures, we believe the best stories
+            begin when you step outside your comfort zone.
+            From hidden gems to breathtaking landscapes,
+            we're here to help you experience more of the world.
+          </p>
+
+          <a href="#experiences" class="text-link">
+            FIND YOUR NEXT ADVENTURE <span>↗</span>
+          </a>
+        </div>
+
+        <div class="about-side">
+          <div class="about-image">
+            <div class="image-tag">
+              <span class="tag-dot"></span>
+              THE ADVENTURE IS OUT THERE
+            </div>
+          </div>
+
+          <div class="about-caption">
+            <span>GO FURTHER.</span>
+            <span>FEEL MORE.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DESTINATIONS SECTION -->
+    <section class="section destinations-section" id="destinations">
+
+      <div class="container">
+
+        <div class="section-top">
+          <div>
+            <p class="section-kicker">THE WORLD IS CALLING</p>
+            <h2>PLACES THAT<br><span class="orange-text">MOVE YOU.</span></h2>
+          </div>
+
+          <a href="#contact" class="text-link desktop-link">
+            PLAN YOUR ESCAPE <span>↗</span>
+          </a>
+        </div>
+
+        <div class="destination-grid">
+
+          <article class="destination-card destination-large">
+            <div class="destination-image destination-image-one"></div>
+            <div class="destination-shade"></div>
+
+            <div class="destination-number">01</div>
+
+            <div class="destination-content">
+              <span class="destination-type">THE GREAT OUTDOORS</span>
+              <h3>WILD<br>ESCAPES</h3>
+              <a href="#contact" class="destination-link">
+                EXPLORE MORE <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <div class="destination-image destination-image-two"></div>
+            <div class="destination-shade"></div>
+
+            <div class="destination-number">02</div>
+
+            <div class="destination-content">
+              <span class="destination-type">FIND YOUR SUMMIT</span>
+              <h3>MOUNTAIN<br>TRAILS</h3>
+              <a href="#contact" class="destination-link">
+                EXPLORE MORE <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <div class="destination-image destination-image-three"></div>
+            <div class="destination-shade"></div>
+
+            <div class="destination-number">03</div>
+
+            <div class="destination-content">
+              <span class="destination-type">CHASE THE HORIZON</span>
+              <h3>HIDDEN<br>PARADISES</h3>
+              <a href="#contact" class="destination-link">
+                EXPLORE MORE <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <p class="destination-note">
+          Destinations shown are inspiration categories.
+          Contact us to confirm available trips and locations.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCES SECTION -->
+    <section class="section experiences-section" id="experiences">
+
+      <div class="container">
+
+        <div class="section-label">
+          <span>03 / THE EXPERIENCE</span>
+          <span class="label-line"></span>
+        </div>
+
+        <div class="experience-heading">
+          <p class="section-kicker">PICK YOUR KIND OF THRILL</p>
+          <h2>YOUR ADVENTURE.<br><span class="orange-text">YOUR RULES.</span></h2>
+        </div>
+
+        <div class="experience-list">
+
+          <a href="#contact" class="experience-item">
+            <span class="experience-number">01</span>
+            <span class="experience-name">ROAD TRIPS</span>
+            <span class="experience-description">
+              Open roads. New places. No ordinary days.
+            </span>
+            <span class="experience-arrow">↗</span>
+          </a>
+
+          <a href="#contact" class="experience-item">
+            <span class="experience-number">02</span>
+            <span class="experience-name">HIKING & NATURE</span>
+            <span class="experience-description">
+              Find your trail and embrace the wild.
+            </span>
+            <span class="experience-arrow">↗</span>
+          </a>
+
+          <a href="#contact" class="experience-item">
+            <span class="experience-number">03</span>
+            <span class="experience-name">GROUP GETAWAYS</span>
+            <span class="experience-description">
+              Bring your people. Make the memories.
+            </span>
+            <span class="experience-arrow">↗</span>
+          </a>
+
+          <a href="#contact" class="experience-item">
+            <span class="experience-number">04</span>
+            <span class="experience-name">CUSTOM ADVENTURES</span>
+            <span class="experience-description">
+              Your vision. A trip built around you.
+            </span>
+            <span class="experience-arrow">↗</span>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta-section">
+
+      <div class="cta-background"></div>
+      <div class="cta-overlay"></div>
+
+      <div class="container cta-content">
+        <p class="section-kicker">YOUR NEXT CHAPTER STARTS HERE</p>
+
+        <h2>
+          LESS SCROLLING.<br>
+          <span class="orange-text">MORE EXPLORING.</span>
+        </h2>
+
+        <p>
+          The memories you want are waiting beyond the familiar.
+          Let's make your next adventure happen.
+        </p>
+
+        <a href="#contact" class="btn btn-primary">
+          LET'S PLAN YOUR TRIP <span>↗</span>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section contact-section" id="contact">
+
+      <div class="container contact-grid">
+
+        <div class="contact-intro">
+          <p class="section-kicker">04 / GET IN TOUCH</p>
+
+          <h2>
+            READY TO<br>
+            <span class="orange-text">GET OUT THERE?</span>
+          </h2>
+
+          <p class="section-description">
+            Tell us what kind of adventure you're dreaming of.
+            We'll take it from there.
+          </p>
+        </div>
+
+        <div class="contact-panel">
+          <span class="contact-panel-label">LET'S MAKE IT HAPPEN</span>
+
+          <h3>YOUR NEXT ADVENTURE<br>STARTS WITH A HELLO.</h3>
+
+          <p>
+            Reach out to ask about destinations, upcoming trips,
+            group bookings, and custom experiences.
+          </p>
+
+          <!-- Replace the # below with your real WhatsApp link -->
+          <a href="#" class="btn btn-primary" id="whatsappButton">
+            CHAT WITH US ON WHATSAPP <span>↗</span>
+          </a>
+
+          <p class="contact-small">
+            WhatsApp booking link will be activated once your
+            official business number is added.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="container footer-main">
+
+      <a href="#home" class="brand footer-brand">
+        <span class="brand-mark">P<span>A</span></span>
+        <span class="brand-text">
+          <strong>PUNISHER</strong>
+          <small>ADVENTURES</small>
+        </span>
+      </a>
+
+      <p class="footer-motto">
+        GO BEYOND. MAKE MEMORIES. LIVE THE ADVENTURE.
+      </p>
+
+      <a href="#home" class="back-to-top">
+        BACK TO TOP ↑
+      </a>
+
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© <span id="year"></span> Punisher Adventures. All rights reserved.</p>
+      <p>MADE FOR THE WILD AT HEART.</p>
+    </div>
+
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+

@@ -74,14 +74,4 @@ document.addEventListener("DOMContentLoaded", () => {
     year.textContent = new Date().getFullYear();
   }
 
-  // WhatsApp placeholder notice
-  const whatsappButton = document.getElementById("whatsappButton");
-
-  if (whatsappButton && whatsappButton.getAttribute("href") === "#") {
-    whatsappButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      alert("The WhatsApp contact link will work once your business number is added.");
-    });
-  }
-});
-
+ 

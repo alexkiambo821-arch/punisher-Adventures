@@ -1490,3 +1490,41 @@ img {
   }
 }
 
+
+/* PUNISHER ADVENTURES LOGO */
+
+.brand-logo {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  transform-origin: center;
+  animation: punisherLogoTilt 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes punisherLogoTilt {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Slightly smaller logo on phones */
+@media (max-width: 760px) {
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo {
+    animation: none;
+  }
+}

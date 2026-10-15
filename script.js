@@ -7,23 +7,67 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_PUBLIC_KEY
 );
 
-// Test the connection by loading active trips.
-async function testTripsConnection() {
+
+async function loadUpcomingTrips() {
+  const tripGrid = document.getElementById("tripGrid");
+
+  if (!tripGrid) {
+    console.error("Trip display area not found. Check the HTML.");
+    return;
+  }
+
+  tripGrid.innerHTML = "<p>Loading upcoming adventures...</p>";
+
   const { data, error } = await supabaseClient
     .from("trips")
-    .select("id, title, travel_date, return_date, price_ksh, capacity")
+    .select("id, title, travel_date, return_date, price_ksh, capacity, boarding_point")
     .eq("is_active", true)
     .order("travel_date", { ascending: true });
 
   if (error) {
-    console.error("Punisher Adventures database error:", error.message);
+    console.error("Could not load trips:", error.message);
+    tripGrid.innerHTML =
+      "<p>Our adventures are temporarily unavailable. Please try again later.</p>";
     return;
   }
 
-  console.log("Supabase connected! Active trips:", data);
+  if (!data || data.length === 0) {
+    tripGrid.innerHTML = "<p>No upcoming adventures at the moment. Check back soon!</p>";
+    return;
+  }
+
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Africa/Nairobi"
+  });
+
+  tripGrid.innerHTML = data.map((trip) => {
+    const date = dateFormatter.format(new Date(trip.travel_date));
+
+    return `
+      <article class="trip-card">
+        <div class="trip-card-tag">UPCOMING ADVENTURE</div>
+        <h3>${trip.title}</h3>
+        <p class="trip-date">📅 ${date}</p>
+        <p>📍 ${trip.boarding_point}</p>
+        <p>👥 ${trip.capacity} seats total</p>
+        <div class="trip-card-bottom">
+          <div class="trip-price">
+            <span>FROM</span>
+            <strong>KSh ${Number(trip.price_ksh).toLocaleString("en-KE")}</strong>
+            <small>per person</small>
+          </div>
+          <a class="trip-book-button" href="#contact">BOOK YOUR SPOT ↗</a>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
-testTripsConnection();
+loadUpcomingTrips();
+
 
 document.addEventListener("DOMContentLoaded", () => {
   // Loading screen

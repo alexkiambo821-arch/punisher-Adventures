@@ -1,17 +1,14 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   // Loading screen
   const loader = document.getElementById("loader");
 
   if (loader) {
-    window.addEventListener("load", () => {
+    const hideLoader = () => {
       loader.classList.add("hidden");
-    });
+    };
 
-    // Fallback so the loader doesn't stay forever
-    setTimeout(() => {
-      loader.classList.add("hidden");
-    }, 2500);
+    window.addEventListener("load", hideLoader);
+    setTimeout(hideLoader, 2500);
   }
 
   // Header scroll effect
@@ -31,12 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.getElementById("navLinks");
 
   function closeMenu() {
-    if (menuToggle && navLinks) {
-      menuToggle.classList.remove("active");
-      navLinks.classList.remove("open");
-      menuToggle.setAttribute("aria-expanded", "false");
-      document.body.classList.remove("menu-open");
-    }
+    if (!menuToggle || !navLinks) return;
+
+    menuToggle.classList.remove("active");
+    navLinks.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
   }
 
   if (menuToggle && navLinks) {
@@ -55,15 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
-      }
+      if (event.key === "Escape") closeMenu();
     });
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 760) {
-        closeMenu();
-      }
+      if (window.innerWidth > 760) closeMenu();
     });
   }
 
@@ -73,5 +66,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (year) {
     year.textContent = new Date().getFullYear();
   }
-
- 
+});

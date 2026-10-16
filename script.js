@@ -244,11 +244,14 @@ document.addEventListener("click", (event) => {
         `Payment is not connected yet, so do not send money manually.`;
 
       document.getElementById("bookingForm").reset();
-    } catch (error) {
-      console.error("Booking error:", error);
-      message.textContent =
-        "We couldn't submit your booking. Please try again later.";
-    } finally {
+  } catch (error) {
+  console.error("Booking error:", error);
+
+  message.textContent =
+    error?.message ||
+    error?.details ||
+    "Booking failed. Open the browser console for details.";
+} finally {
       submitButton.disabled = false;
       submitButton.textContent = "CONTINUE BOOKING ↗";
     }

@@ -59,12 +59,203 @@ async function loadUpcomingTrips() {
             <strong>KSh ${Number(trip.price_ksh).toLocaleString("en-KE")}</strong>
             <small>per person</small>
           </div>
-          <a class="trip-book-button" href="#contact">BOOK YOUR SPOT ↗</a>
+          <a
+  class="trip-book-button"
+  href="#bookingForm"
+  data-trip-id="${trip.id}"
+  data-trip-title="${trip.title}"
+  data-trip-price="${trip.price_ksh}"
+  data-trip-capacity="${trip.capacity}"
+>
+  BOOK YOUR SPOT ↗
+</a>
         </div>
       </article>
     `;
   }).join("");
 }
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest(".trip-book-button");
+  if (!button) return;
+
+  event.preventDefault();
+
+  const tripId = button.dataset.tripId;
+  const tripTitle = button.dataset.tripTitle;
+  const price = Number(button.dataset.tripPrice);
+  const capacity = Number(button.dataset.tripCapacity);
+
+  let modal = document.getElementById("bookingModal");
+
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "bookingModal";
+
+    modal.innerHTML = `
+      <div class="booking-box">
+        <button type="button" id="closeBooking"
+          class="booking-close" aria-label="Close booking form">×</button>
+
+        <p class="section-kicker">PUNISHER ADVENTURES</p>
+        <h2>BOOK YOUR <span class="orange-text">SPOT.</span></h2>
+        <p id="bookingTripTitle"></p>
+
+        <form id="bookingForm">
+          <label for="bookingName">Full name</label>
+          <input id="bookingName" name="customer_name"
+            type="text" maxlength="100" required>
+
+          <label for="bookingPhone">M-Pesa phone number</label>
+          <input id="bookingPhone" name="phone"
+            type="tel" placeholder="07XXXXXXXX" maxlength="13" required>
+
+          <label for="bookingSeats">Number of seats</label>
+          <select id="bookingSeats" name="seats" required></select>
+
+          <p id="bookingTotal" aria-live="polite"></p>
+          <p id="bookingMessage" role="status"></p>
+
+          <button type="submit" class="btn btn-primary"
+            id="submitBooking">CONTINUE BOOKING ↗</button>
+        </form>
+      </div>
+    `;
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #bookingModal {
+        position: fixed; inset: 0; z-index: 9999;
+        background: rgba(0,0,0,.88); display: grid;
+        place-items: center; padding: 18px; overflow-y: auto;
+      }
+      .booking-box {
+        position: relative; background: #111; color: white;
+        border: 1px solid #b94b12; padding: 28px;
+        width: min(100%, 460px); max-height: 90vh;
+        overflow-y: auto; border-radius: 12px;
+      }
+      .booking-box h2 { font-size: 2rem; margin: 12px 0; }
+      .booking-box label {
+        display: block; margin-top: 14px; margin-bottom: 6px;
+      }
+      .booking-box input, .booking-box select {
+        display: block; width: 100%; padding: 12px;
+        background: #202020; color: white;
+        border: 1px solid #555; border-radius: 6px;
+      }
+      .booking-close {
+        position: absolute; right: 12px; top: 8px;
+        background: transparent; color: white; border: 0;
+        font-size: 30px; cursor: pointer;
+      }
+      #bookingTotal { color: #ff7a24; font-weight: 800; margin: 18px 0; }
+      #bookingMessage { overflow-wrap: anywhere; }
+      #submitBooking { width: 100%; cursor: pointer; }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(modal);
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal || e.target.id === "closeBooking") {
+        modal.remove();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.getElementById("bookingModal")?.remove();
+      }
+    });
+
+    document.addEventListener("change", (e) => {
+      if (e.target.id !== "bookingSeats") return;
+      const count = Number(e.target.value);
+      const total = count * Number(modal.dataset.price);
+      document.getElementById("bookingTotal").textContent =
+        `Total: KSh ${total.toLocaleString("en-KE")}`;
+    });
+  }
+
+  modal.dataset.tripId = tripId;
+  modal.dataset.price = String(price);
+
+  document.getElementById("bookingTripTitle").textContent =
+    `${tripTitle} — KSh ${price.toLocaleString("en-KE")} per person`;
+
+  const seatsSelect = document.getElementById("bookingSeats");
+  seatsSelect.innerHTML = "";
+
+  for (let i = 1; i <= Math.min(capacity, 20); i++) {
+    const option = document.createElement("option");
+    option.value = String(i);
+    option.textContent = `${i} seat${i === 1 ? "" : "s"}`;
+    seatsSelect.appendChild(option);
+  }
+
+  seatsSelect.value = "1";
+  document.getElementById("bookingTotal").textContent =
+    `Total: KSh ${price.toLocaleString("en-KE")}`;
+
+  document.getElementById("bookingMessage").textContent = "";
+  document.getElementById("bookingForm").dataset.tripId = tripId;
+
+  document.getElementById("bookingForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const submitButton = document.getElementById("submitBooking");
+    const message = document.getElementById("bookingMessage");
+
+    const customerName = document.getElementById("bookingName").value.trim();
+    let phone = document.getElementById("bookingPhone").value.trim();
+    const seats = Number(seatsSelect.value);
+
+    phone = phone.replace(/[\s-]/g, "");
+    if (phone.startsWith("+")) phone = phone.slice(1);
+    if (phone.startsWith("0")) phone = "254" + phone.slice(1);
+
+    if (!/^254[17]\d{8}$/.test(phone)) {
+      message.textContent = "Enter a valid Kenyan number, e.g. 0712345678.";
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "SUBMITTING...";
+    message.textContent = "Submitting your booking request...";
+
+    try {
+      const { data, error } = await supabaseClient.rpc("submit_booking", {
+        p_trip_id: tripId,
+        p_customer_name: customerName,
+        p_phone: phone,
+        p_seats: seats
+      });
+
+      if (error) throw error;
+
+      if (!data || data.ok !== true) {
+        message.textContent =
+          data?.message || "Booking could not be created. Please try again.";
+        return;
+      }
+
+      message.textContent =
+        `Booking request created. Reference: ${data.booking_reference}. ` +
+        `Payment is not connected yet, so do not send money manually.`;
+
+      document.getElementById("bookingForm").reset();
+    } catch (error) {
+      console.error("Booking error:", error);
+      message.textContent =
+        "We couldn't submit your booking. Please try again later.";
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "CONTINUE BOOKING ↗";
+    }
+  };
+
+  modal.style.display = "grid";
+});
 
 loadUpcomingTrips();
 

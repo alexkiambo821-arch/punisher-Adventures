@@ -1,4 +1,40 @@
+const TURNSTILE_SITE_KEY = "0x4AAAAAAFZD-t-2UScdns5NNbYlbF6jr-I";
 
+const CREATE_BOOKING_URL =
+  `${SUPABASE_URL}/functions/v1/create-booking`;
+
+async function renderBookingTurnstile(modal) {
+  const message = document.getElementById("bookingMessage");
+
+  // Wait for Cloudflare's script to load.
+  for (let i = 0; i < 50 && !window.turnstile; i++) {
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  if (!window.turnstile || !document.getElementById("turnstile-container")) {
+    message.textContent =
+      "Security check is loading. Please close and reopen the booking form.";
+    return;
+  }
+
+  const widgetId = window.turnstile.render("#turnstile-container", {
+    sitekey: TURNSTILE_SITE_KEY,
+    callback: token => {
+      modal.dataset.turnstileToken = token;
+      message.textContent = "";
+    },
+    "expired-callback": () => {
+      modal.dataset.turnstileToken = "";
+      message.textContent = "Security check expired. Please complete it again.";
+    },
+    "error-callback": () => {
+      modal.dataset.turnstileToken = "";
+      message.textContent = "Security check failed to load. Please try again.";
+    }
+  });
+
+  modal.dataset.turnstileWidgetId = widgetId;
+}
 const SUPABASE_URL = "https://hbqmezfzryticbtswlhy.supabase.co";
 const SUPABASE_PUBLIC_KEY = "sb_publishable_7eRKA0H1fqsgZgsdvWsR1Q_sTpKJWH0";
 
@@ -113,8 +149,11 @@ document.addEventListener("click", (event) => {
           <label for="bookingSeats">Number of seats</label>
           <select id="bookingSeats" name="seats" required></select>
 
-          <p id="bookingTotal" aria-live="polite"></p>
-          <p id="bookingMessage" role="status"></p>
+      <p id="bookingTotal" aria-live="polite"></p>
+
+<div id="turnstile-container" style="margin: 16px 0;"></div>
+
+<p id="bookingMessage" role="status"></p>
 
           <button type="submit" class="btn btn-primary"
             id="submitBooking">CONTINUE BOOKING ↗</button>
@@ -155,7 +194,7 @@ document.addEventListener("click", (event) => {
     `;
     document.head.appendChild(style);
     document.body.appendChild(modal);
-
+renderBookingTurnstile(modal);
     modal.addEventListener("click", (e) => {
       if (e.target === modal || e.target.id === "closeBooking") {
         modal.remove();
@@ -224,13 +263,33 @@ document.addEventListener("click", (event) => {
     message.textContent = "Submitting your booking request...";
 
     try {
-      const { data, error } = await supabaseClient.rpc("submit_booking", {
-        p_trip_id: tripId,
-        p_customer_name: customerName,
-        p_phone: phone,
-        p_seats: seats
-      });
+     const turnstileToken = modal.dataset.turnstileToken;
 
+if (!turnstileToken) {
+  message.textContent = "Please complete the security check first.";
+  return;
+}
+
+const response = await fetch(CREATE_BOOKING_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "apikey": SUPABASE_PUBLIC_KEY
+  },
+  body: JSON.stringify({
+    turnstileToken,
+    p_trip_id: tripId,
+    p_customer_name: customerName,
+    p_phone: phone,
+    p_seats: seats
+  })
+});
+
+const data = await response.json();
+
+if (!response.ok) {
+  throw new Error(data.error || "Booking failed. Please try again.");
+}
       if (error) throw error;
 
       if (!data || data.ok !== true) {

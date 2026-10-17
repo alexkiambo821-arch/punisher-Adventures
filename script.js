@@ -2,7 +2,7 @@
 const SUPABASE_URL = "https://hbqmezfzryticbtswlhy.supabase.co";
 const SUPABASE_PUBLIC_KEY = "sb_publishable_7eRKA0H1fqsgZgsdvWsR1Q_sTpKJWH0";
 
-const TURNSTILE_SITE_KEY = "0x4AAAAAAFZD-t-2UScdns5NNbYlbF6jr-I";
+const TURNSTILE_SITE_KEY = "0x4AAAAAAFZD-vy2tc2-ea35";
 const CREATE_BOOKING_URL = `${SUPABASE_URL}/functions/v1/create-booking`;
 
 const supabaseClient = window.supabase.createClient(
